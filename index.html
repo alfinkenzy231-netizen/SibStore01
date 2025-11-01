@@ -1,243 +1,678 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Payment - SIBRA AMULISI</title>
-<style>
-  /* ==== FONT FUTURISTIK ==== */
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Audiowide&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode Pembayaran - Tema Futuristik</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Faster+One&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a12;
+            --bg-darker: #050508;
+            --neon-blue: #00f3ff;
+            --neon-cyan: #00ffff;
+            --text-light: #e0e0ff;
+            --text-muted: #a0a0c0;
+            --card-bg: rgba(15, 15, 30, 0.7);
+            --border-glow: rgba(0, 243, 255, 0.3);
+        }
 
-  /* ==== BACKGROUND DAN EFEK ==== */
-  body {
-    margin: 0;
-    font-family: 'Audiowide', 'Orbitron', sans-serif;
-    color: #fff;
-    background: radial-gradient(circle at bottom, #001933 0%, #000814 80%);
-    overflow: hidden;
-  }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  canvas#stars {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: linear-gradient(135deg, #000814, #001d3d, #000814);
-    animation: bgmove 10s ease-in-out infinite alternate;
-  }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-  @keyframes bgmove {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-  }
+        /* Canvas untuk animasi partikel */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
 
-  /* ==== KONTEN ==== */
-  header {
-    text-align: center;
-    padding: 30px 10px;
-    color: #00ffff;
-    font-size: 2.2em;
-    letter-spacing: 2px;
-    text-shadow: 0 0 25px cyan, 0 0 10px #00bfff;
-  }
+        /* Header */
+        header {
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-glow);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            background: rgba(10, 10, 18, 0.8);
+            backdrop-filter: blur(5px);
+        }
 
-  .container {
-    max-width: 600px;
-    margin: auto;
-    background: rgba(0, 10, 30, 0.85);
-    border: 2px solid cyan;
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 0 40px cyan;
-  }
+        .logo {
+            font-family: 'Faster One', cursive;
+            font-size: 2.5rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+            margin-bottom: 0.5rem;
+        }
 
-  .method {
-    background: rgba(0, 20, 60, 0.75);
-    border: 1px solid cyan;
-    border-radius: 15px;
-    padding: 15px;
-    margin: 15px 0;
-    text-align: center;
-    transition: 0.3s;
-  }
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
 
-  .method:hover {
-    background: rgba(0, 60, 120, 0.9);
-    transform: scale(1.05);
-    box-shadow: 0 0 25px #00bfff;
-  }
+        /* Navigasi */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
 
-  .method img {
-    width: 85px;
-    margin-bottom: 10px;
-    filter: drop-shadow(0 0 10px cyan);
-  }
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
 
-  .method p {
-    margin: 5px 0;
-    font-size: 1.1em;
-  }
+        nav a:hover {
+            color: var(--neon-cyan);
+        }
 
-  button {
-    background: linear-gradient(90deg, cyan, #0077ff);
-    border: none;
-    color: black;
-    padding: 8px 18px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: bold;
-    font-family: 'Orbitron', sans-serif;
-    transition: 0.3s;
-    text-transform: uppercase;
-  }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--neon-cyan);
+            transition: width 0.3s ease;
+        }
 
-  button:hover {
-    background: #00bfff;
-    color: white;
-    box-shadow: 0 0 15px cyan;
-  }
+        nav a:hover::after {
+            width: 100%;
+        }
 
-  .qris {
-    text-align: center;
-    margin-top: 30px;
-  }
+        /* Konten utama */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
 
-  .qris img {
-    width: 220px;
-    border-radius: 15px;
-    border: 2px solid cyan;
-    box-shadow: 0 0 25px cyan;
-  }
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
 
-  .menu {
-    text-align: center;
-    margin: 30px 0 10px;
-  }
+        /* Kartu metode pembayaran */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
 
-  .menu a {
-    background: linear-gradient(90deg, #00ffff, #0077ff);
-    color: #000;
-    padding: 12px 28px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 0 20px cyan;
-    text-transform: uppercase;
-    transition: 0.3s;
-  }
+        .payment-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-glow);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-  .menu a:hover {
-    box-shadow: 0 0 30px #00bfff;
-  }
+        .payment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+        }
 
-  footer {
-    text-align: center;
-    padding: 15px;
-    font-size: 0.85em;
-    color: #aaa;
-    font-family: 'Orbitron', sans-serif;
-  }
-</style>
+        .payment-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+
+        .payment-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--neon-blue);
+        }
+
+        .payment-name {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--neon-cyan);
+        }
+
+        .payment-details {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-number {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .payment-owner {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .payment-actions {
+            display: flex;
+            gap: 0.5rem;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Tombol */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+            color: var(--bg-darker);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+
+        /* QR Section */
+        .qris-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .qris-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+
+        .qris-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .qris-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 90%;
+            max-height: 90%;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 5px;
+        }
+
+        /* WhatsApp Channel */
+        .whatsapp-channel {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-glow);
+        }
+
+        .whatsapp-channel h2 {
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .whatsapp-channel p {
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        /* Notifikasi */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: var(--card-bg);
+            border-left: 4px solid var(--neon-blue);
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .notification.active {
+            transform: translateX(0);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border-glow);
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .payment-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Canvas untuk animasi partikel -->
+    <canvas id="particle-canvas"></canvas>
 
-<canvas id="stars"></canvas>
+    <!-- Header -->
+    <header>
+        <div class="logo">PAYMENT PORTAL</div>
+        <div class="tagline">SECURE & FUTURISTIC PAYMENT SOLUTIONS</div>
+    </header>
 
-<header>💠 PAYMENT CENTER 💠</header>
+    <!-- Navigasi -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#payment">Payment</a>
+        <a href="#help">Help</a>
+    </nav>
 
-<div class="container">
-  <div class="method">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Logo_dana_blue.svg" alt="DANA">
-    <p><b>DANA:</b> 087762133437</p>
-    <p><b>Nama:</b> SIBRA AMULISI</p>
-    <button onclick="copyText('087762133437')">Salin Nomor</button>
-  </div>
+    <!-- Konten utama -->
+    <main>
+        <h1 class="section-title">METODE PEMBAYARAN</h1>
+        
+        <div class="payment-methods">
+            <!-- DANA -->
+            <div class="payment-card">
+                <div class="payment-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                    </svg>
+                </div>
+                <h2 class="payment-name">DANA</h2>
+                <div class="payment-details">
+                    <div class="payment-number">087762133437</div>
+                    <div class="payment-owner">SIBRA AMULISI</div>
+                </div>
+                <div class="payment-actions">
+                    <button class="btn btn-primary" onclick="copyToClipboard('087762133437')" aria-label="Salin nomor DANA">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                        </svg>
+                        Salin Nomor
+                    </button>
+                    <button class="btn btn-secondary" onclick="copyAndOpen('087762133437', 'dana')" aria-label="Salin dan buka aplikasi DANA">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                        </svg>
+                        Salin & Buka
+                    </button>
+                </div>
+            </div>
 
-  <div class="method">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/GoPay_logo.svg" alt="GOPAY">
-    <p><b>GOPAY:</b> 087862600313</p>
-    <p><b>Nama:</b> ILHAMNILLAH</p>
-    <button onclick="copyText('087862600313')">Salin Nomor</button>
-  </div>
+            <!-- GOPAY -->
+            <div class="payment-card">
+                <div class="payment-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                    </svg>
+                </div>
+                <h2 class="payment-name">GOPAY</h2>
+                <div class="payment-details">
+                    <div class="payment-number">087862600313</div>
+                    <div class="payment-owner">ILHAMNILLAH</div>
+                </div>
+                <div class="payment-actions">
+                    <button class="btn btn-primary" onclick="copyToClipboard('087862600313')" aria-label="Salin nomor GOPAY">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                        </svg>
+                        Salin Nomor
+                    </button>
+                    <button class="btn btn-secondary" onclick="copyAndOpen('087862600313', 'gopay')" aria-label="Salin dan buka aplikasi GOPAY">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                        </svg>
+                        Salin & Buka
+                    </button>
+                </div>
+            </div>
 
-  <div class="method">
-    <img src="https://seeklogo.com/images/S/seabank-logo-6D3A99DE7E-seeklogo.com.png" alt="SEABANK">
-    <p><b>SEABANK:</b> 901125967718</p>
-    <p><b>Nama:</b> SIBRA AMULISI</p>
-    <button onclick="copyText('901125967718')">Salin Nomor</button>
-  </div>
+            <!-- SEABANK -->
+            <div class="payment-card">
+                <div class="payment-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                    </svg>
+                </div>
+                <h2 class="payment-name">SEABANK</h2>
+                <div class="payment-details">
+                    <div class="payment-number">901125967718</div>
+                    <div class="payment-owner">SIBRA AMULISI</div>
+                </div>
+                <div class="payment-actions">
+                    <button class="btn btn-primary" onclick="copyToClipboard('901125967718')" aria-label="Salin nomor SEABANK">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                        </svg>
+                        Salin Nomor
+                    </button>
+                    <button class="btn btn-secondary" onclick="copyAndOpen('901125967718', 'seabank')" aria-label="Salin dan buka aplikasi SEABANK">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                        </svg>
+                        Salin & Buka
+                    </button>
+                </div>
+            </div>
 
-  <div class="qris">
-    <h3>SCAN QRIS</h3>
-    <img src="https://files.catbox.moe/e3y7cx.jpg" alt="QRIS">
-  </div>
-</div>
+            <!-- QRIS -->
+            <div class="payment-card">
+                <div class="payment-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4z"/>
+                    </svg>
+                </div>
+                <h2 class="payment-name">QRIS</h2>
+                <div class="payment-details">
+                    <div class="payment-owner">Scan kode QR untuk pembayaran</div>
+                </div>
+                <div class="payment-actions">
+                    <button class="btn btn-primary" onclick="showQRModal()" aria-label="Lihat QR Code">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                        Lihat QR
+                    </button>
+                    <button class="btn btn-secondary" onclick="downloadQR()" aria-label="Download QR Code">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                        </svg>
+                        Download QR
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<div class="menu">
-  <a href="https://whatsapp.com/channel/0029Vb6KivcLo4hbkznAWa2P" target="_blank">🔗 Kunjungi Saluran</a>
-</div>
+        <!-- QRIS Modal -->
+        <div id="qr-modal" class="modal">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeQRModal()" aria-label="Tutup modal">×</button>
+                <h2 style="text-align: center; margin-bottom: 1rem; color: var(--neon-cyan);">QRIS</h2>
+                <img id="modal-qr-image" src="https://files.catbox.moe/e3y7cx.jpg" alt="QR Code untuk pembayaran" class="modal-image">
+                <div style="text-align: center; margin-top: 1rem;">
+                    <button class="btn btn-primary" onclick="downloadQR()">Download QR</button>
+                </div>
+            </div>
+        </div>
 
-<footer>© 2025 SIBRA AMULISI | Design by GPT-5</footer>
+        <!-- WhatsApp Channel -->
+        <div class="whatsapp-channel">
+            <h2>WhatsApp Channel</h2>
+            <p>Ikuti channel WhatsApp kami untuk informasi terbaru dan promo</p>
+            <a href="https://whatsapp.com/channel/0029Vb6KivcLo4hbkznAWa2P" target="_blank" class="btn btn-primary" aria-label="Bergabung dengan WhatsApp Channel">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16.75 13.96c.25.13.41.2.46.3.06.11.04.61-.21 1.18-.2.56-1.24 1.1-1.7 1.12-.46.02-.47.36-2.96-.73-2.49-1.09-3.99-3.75-4.11-3.92-.12-.17-.96-1.38-.92-2.61.05-1.22.69-1.8.95-2.04.24-.26.51-.29.68-.26h.47c.15 0 .36-.06.55.45l.69 1.87c.06.13.1.28.01.44l-.27.41-.39.42c-.12.12-.26.25-.12.5.12.26.62 1.09 1.32 1.78.91.88 1.71 1.17 1.95 1.3.24.14.39.12.54-.04l.81-.94c.19-.25.35-.19.58-.11l1.67.88M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10c-1.97 0-3.8-.57-5.35-1.55L2 22l1.55-4.65A9.969 9.969 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8c0 1.72.54 3.31 1.46 4.61L4.5 19.5l2.89-.96A7.95 7.95 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8z"/>
+                </svg>
+                Bergabung dengan Channel
+            </a>
+        </div>
+    </main>
 
-<script>
-  // ==== Salin Nomor ====
-  function copyText(text) {
-    navigator.clipboard.writeText(text);
-    alert("Nomor berhasil disalin: " + text);
-  }
+    <!-- Notifikasi -->
+    <div id="notification" class="notification">
+        <span id="notification-text">Teks berhasil disalin!</span>
+    </div>
 
-  // ==== Efek Bintang Bergerak ====
-  const canvas = document.getElementById("stars");
-  const ctx = canvas.getContext("2d");
-  let stars = [];
-  let w, h;
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Payment Portal. All rights reserved.</p>
+    </footer>
 
-  function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  }
-  window.addEventListener("resize", resize);
-  resize();
+    <script>
+        // Animasi Partikel
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 80;
 
-  for (let i = 0; i < 150; i++) {
-    stars.push({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: Math.random() * 2,
-      d: Math.random() * 1
-    });
-  }
+        // Ukuran canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
 
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = "rgba(0, 255, 255, 0.8)";
-    ctx.beginPath();
-    for (let i = 0; i < stars.length; i++) {
-      const s = stars[i];
-      ctx.moveTo(s.x, s.y);
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2, true);
-    }
-    ctx.fill();
-    moveStars();
-  }
+        // Inisialisasi partikel
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    opacity: Math.random() * 0.5 + 0.2
+                });
+            }
+        }
 
-  let angle = 0;
-  function moveStars() {
-    angle += 0.01;
-    for (let i = 0; i < stars.length; i++) {
-      const s = stars[i];
-      s.y += Math.cos(angle + s.d) + 1 + s.r / 2;
-      s.x += Math.sin(angle) * 0.5;
-      if (s.y > h) {
-        stars[i] = { x: Math.random() * w, y: 0, r: s.r, d: s.d };
-      }
-    }
-  }
+        // Gambar partikel
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(0, 243, 255, 0.8)';
+            
+            particles.forEach(particle => {
+                ctx.globalAlpha = particle.opacity;
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Update posisi
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                
+                // Jika partikel keluar dari layar, pindahkan ke sisi lain
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                if (particle.y > canvas.height) particle.y = 0;
+            });
+            
+            requestAnimationFrame(drawParticles);
+        }
 
-  setInterval(draw, 33);
-</script>
+        // Inisialisasi animasi
+        window.addEventListener('load', () => {
+            resizeCanvas();
+            initParticles();
+            drawParticles();
+        });
 
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        // Fungsi untuk menyalin ke clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Nomor berhasil disalin!');
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+                showNotification('Gagal menyalin nomor');
+            });
+        }
+
+        // Fungsi untuk menyalin dan membuka aplikasi
+        function copyAndOpen(text, app) {
+            copyToClipboard(text);
+            // Di sini bisa ditambahkan logika untuk membuka aplikasi tertentu
+            // Untuk saat ini hanya menampilkan notifikasi
+            showNotification(`Nomor ${app} disalin!`);
+        }
+
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.classList.add('active');
+            
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 3000);
+        }
+
+        // Fungsi untuk modal QR
+        function showQRModal() {
+            document.getElementById('qr-modal').classList.add('active');
+        }
+
+        function closeQRModal() {
+            document.getElementById('qr-modal').classList.remove('active');
+        }
+
+        // Fungsi untuk download QR
+        function downloadQR() {
+            const link = document.createElement('a');
+            link.href = 'https://files.catbox.moe/e3y7cx.jpg';
+            link.download = 'qris-payment.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showNotification('QR Code berhasil diunduh!');
+        }
+
+        // Tutup modal saat klik di luar konten
+        document.getElementById('qr-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQRModal();
+            }
+        });
+    </script>
 </body>
 </html>
